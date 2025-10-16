@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WebGL PA#1: Shoe Surface (Saddle)</title>
+
+    <style>
+        :root {
+            --bg: #000000;
+            --neon-cyan: #00fff7;
+            --neon-pink: #ff00c8;
+            --neon-purple: #9b30ff;
+            --neon-green: #39ff14;
+            --neon-blue: #00aaff;
+            --panel: rgba(255,255,255,0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--neon-cyan);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+
+        h1, h2 {
+            color: var(--neon-pink);
+            margin-bottom: 5px;
+            margin-top: 10px;
+            font-size: 2.5em;
+            text-shadow:
+                0 0 6px rgba(255,0,200,0.85),
+                0 0 20px rgba(155,48,255,0.65);
+        }
+        
+        #message {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--neon-purple);
+            font-size: 1.1em;
+            line-height: 1.4;
+        }
+        
+        #canvas-holder {
+            border: 3px solid rgba(0,170,255,0.8);
+            box-shadow:
+                0 0 20px rgba(0,170,255,0.12),
+                0 8px 40px rgba(255,0,200,0.06);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: var(--panel);
+            transition: box-shadow 0.25s ease, transform 0.15s ease;
+        }
+        
+        #canvas-holder:hover {
+            box-shadow:
+                0 0 30px rgba(0,170,255,0.9),
+                0 0 60px rgba(255,0,200,0.25);
+            transform: translateY(-3px);
+        }
+
+        #webglcanvas {
+            display: block;
+            background-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(0,255,200,0.08));
+        }
+
+    </style>
+
+    <script src="./Utils/trackball-rotator.js"></script>
+    <script src="./Utils/m4.js"></script>
+    <script src="./shader.gpu"></script>
+    <script src="./model.js"></script>
+    <script src="./main.js"></script>
+
+</head>
+<body onload="init()">
+
+    <h1>Shoe Surface</h1>
+
+    <p id="message">
+        Variant 13 - PA1<br>
+    </p>
+
+
+    <div id="canvas-holder">
+        <canvas width="600" height="600" id="webglcanvas"></canvas>
+    </div>
+
+    <div class="info">
+    </div>
+
+</body>
+</html>
