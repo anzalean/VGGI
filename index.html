@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WebGL PA#2: Shoe Surface (Saddle)</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F8F8FF;
+            color: #4B0082; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+
+        h1, h2 {
+            color: #FF69B4; 
+            margin-bottom: 5px;
+            margin-top: 10px;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.4);
+        }
+        
+        #message {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #7B68EE; 
+            font-size: 1.1em;
+            line-height: 1.4;
+        }
+        
+        #canvas-holder {
+            border: 3px solid #ADD8E6; 
+            box-shadow: 0 4px 15px rgba(123, 104, 238, 0.2); 
+            border-radius: 10px; 
+            overflow: hidden;
+            background-color: #FFFFFF; 
+            transition: box-shadow 0.3s ease;
+        }
+        
+        #canvas-holder:hover {
+            box-shadow: 0 4px 20px rgba(255, 105, 180, 0.5);
+        }
+
+        #webglcanvas {
+            display: block;
+        }
+
+        .slider-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slider-container > div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+    </style>
+
+    <script src="./Utils/trackball-rotator.js"></script>
+    <script src="./Utils/m4.js"></script>
+    <script src="./shader.gpu"></script>
+    <script src="./model.js"></script>
+    <script src="./main.js"></script>
+
+</head>
+<body onload="init()">
+
+    <h1>Shoe Surface</h1>
+
+    <p id="message">
+        Варіант 13 - PA#1<br>
+    </p>
+
+
+    <div id="canvas-holder">
+        <canvas width="600" height="600" id="webglcanvas"></canvas>
+    </div>
+
+    <div class="slider-container">
+        <div>
+            <label for="u-slider">U Granularity</label>
+            <input type="range" id="u-slider" min="2" max="70" value="20">
+        </div>
+        <div>
+            <label for="v-slider">V Granularity</label>
+            <input type="range" id="v-slider" min="2" max="70" value="20">
+        </div>
+    </div>
+
+    <div class="info">
+    </div>
+
+</body>
+</html>
