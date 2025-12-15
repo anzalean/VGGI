@@ -186,13 +186,13 @@ function CreateSurfaceData(u_lines, v_lines) {
             normals[idx * 3 + 1] += faceNormal[1] * angle;
             normals[idx * 3 + 2] += faceNormal[2] * angle;
 
-            tangents[idx * 3] += tangent[0] * angle;
-            tangents[idx * 3 + 1] += tangent[1] * angle;
-            tangents[idx * 3 + 2] += tangent[2] * angle;
+            tangents[idx * 3]     += tangent[0];
+            tangents[idx * 3 + 1] += tangent[1];
+            tangents[idx * 3 + 2] += tangent[2];
 
-            bitangents[idx * 3] += bitangent[0] * angle;
-            bitangents[idx * 3 + 1] += bitangent[1] * angle;
-            bitangents[idx * 3 + 2] += bitangent[2] * angle;
+            bitangents[idx * 3]     += bitangent[0];
+            bitangents[idx * 3 + 1] += bitangent[1];
+            bitangents[idx * 3 + 2] += bitangent[2];
         });
 
     }
