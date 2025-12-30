@@ -1,0 +1,81 @@
+// Vertex shader
+const vertexShaderSource = `
+attribute vec3 vertex;
+attribute vec3 aNormal;
+attribute vec2 aTexCoord;
+attribute vec3 aTangent;
+attribute vec3 aBitangent;
+
+uniform mat4 ModelViewProjectionMatrix;
+uniform mat4 ModelViewMatrix;
+uniform mat3 NormalMatrix;
+uniform float u_scale;
+uniform vec2 u_scale_center;
+
+varying vec3 v_normal;
+varying vec3 v_vertex;
+varying vec2 v_texCoord;
+varying mat3 v_tbn;
+
+void main() {
+    gl_Position = ModelViewProjectionMatrix * vec4(vertex,1.0);
+    v_normal = normalize(NormalMatrix * aNormal);
+    v_vertex = vec3(ModelViewMatrix * vec4(vertex, 1.0));
+    
+    // Apply scaling to the texture coordinates
+    v_texCoord = (aTexCoord - u_scale_center) * u_scale + u_scale_center;
+
+    vec3 tangent = normalize(NormalMatrix * aTangent);
+    vec3 bitangent = normalize(NormalMatrix * aBitangent);
+
+    v_tbn = mat3(tangent, bitangent, v_normal);
+}`;
+// Fragment shader
+const fragmentShaderSource = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+   precision highp float;
+#else
+   precision mediump float;
+#endif
+
+varying vec3 v_normal;
+varying vec3 v_vertex;
+varying vec2 v_texCoord;
+varying mat3 v_tbn;
+
+uniform vec3 u_light_position;
+uniform vec4 u_light_color;
+uniform vec4 u_ambient_color;
+uniform vec4 u_diffuse_color;
+uniform vec4 u_specular_color;
+uniform float u_shininess;
+
+uniform sampler2D u_tex_diffuse;
+uniform sampler2D u_tex_specular;
+uniform sampler2D u_tex_normal;
+
+void main() {
+    // Зчитування нормалі з карти та переведення з [0, 1] в [-1, 1]
+    vec3 tex_normal = texture2D(u_tex_normal, v_texCoord).rgb * 2.0 - 1.0; 
+// Перетворення нормалі з простору TBN у простір виду (View Space)
+    vec3 normal = normalize(v_tbn * tex_normal); 
+    
+    vec3 light_direction = normalize(u_light_position - v_vertex);
+    vec3 view_direction = normalize(-v_vertex);
+// Ambient
+    vec4 ambient = u_ambient_color;
+
+    // Diffuse: дифузний колір береться з diffuse map
+    float diff = max(dot(normal, light_direction), 0.0);
+vec4 diffuse_color = texture2D(u_tex_diffuse, v_texCoord);
+    vec4 diffuse = diff * diffuse_color;
+    
+// Specular: дзеркальний колір береться зі specular map
+    vec3 reflect_direction = reflect(-light_direction, normal);
+    float spec = pow(max(dot(view_direction, reflect_direction), 0.0), u_shininess);
+vec4 specular_color = texture2D(u_tex_specular, v_texCoord);
+    vec4 specular = spec * specular_color;
+    
+// Фінальний колір
+    gl_FragColor = ambient + diffuse * u_light_color + specular * u_light_color;
+}`;
